@@ -1,0 +1,26 @@
+- hosts: localhost
+  tasks:
+    - name: Add source repository into sources list
+      become: yes
+      ansible.builtin.apt_repository:
+        repo: ppa:alessandro-strada/ppa
+
+    - name: install google-drive-ocamlfuse
+      become: yes
+      apt: name=google-drive-ocamlfuse state=present update_cache=yes
+
+    - name: Create a directory gdrive if it does not exist
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/gdrive"
+        state: directory
+
+
+    - name: Create a directory upstart if it does not exist
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/upstart"
+        state: directory
+
+    - name: Create file  gdrive.conf if it does not exist
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/upstart/gdrive.conf"
+        state: touch

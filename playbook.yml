@@ -1,0 +1,38 @@
+- hosts: localhost
+  tasks:
+    - name: Add line .bashrc and change view terminal
+      blockinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        block:
+          export PS1='\[\033[0;32m\]\[\033[0m\033[0;32m\]\u\[\033[0;36m\] @ \[\033[0;36m\]\h \w\[\033[0;32m\]$(__git_ps1)\n\[\033[0;32m\]└─\[\033[0m\033[0;32m\] \$\[\033[0m\033[0;32m\] ▶\[\033[0m\] '
+
+    - name: install chromium
+      apt: name=chromium-browser state=present update_cache=yes
+      become: yes
+
+    - name: install tweaks
+      apt: name=gnome-tweak-tool state=present
+      become: yes
+
+    - name: install kazam
+      apt: name=kazam state=present
+      become: yes
+
+    - name: install snapd
+      apt: name=snapd state=present
+      become: yes
+
+    - name: install snapd-xdg-open
+      apt: name=snapd-xdg-open state=present
+      become: yes
+
+    - name: install rambox
+      snap:  name=rambox state=present
+      become: yes
+
+    - name:  install obsidian
+      become: yes
+      apt:
+        deb: https://github.com/obsidianmd/obsidian-releases/releases/download/v0.9.20/obsidian_0.9.20_amd64.deb
+
+
